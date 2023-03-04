@@ -4,7 +4,7 @@ from dataclasses import dataclass
 class Product:
     # instance variables
     id : int # should be created by the database??
-    price : int
+    price_in_pence : int
     name_on_receipt : str
     name_on_website : str
     link_to_product : str
@@ -15,8 +15,8 @@ class Product:
     # def __init__(self): # uncomment if we want to create an empty instance of Product
     #     pass
 
-    def __init__(self, price, name_on_receipt): # data received from receipt
-        self.price = price
+    def __init__(self, price_in_pence, name_on_receipt): # data received from receipt
+        self.price_in_pence = price_in_pence
         self.name_on_receipt = name_on_receipt
 
     # if we need getters and setters we can make them later
