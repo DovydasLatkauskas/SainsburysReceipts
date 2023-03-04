@@ -46,9 +46,9 @@ class VeryfiParser():
         return self.items
 
 
-filename = 'receipts_test.jpg'
-parser = VeryfiParser(filename)
-items = parser.get_line_items()
-print(items)
+# filename = 'receipts_test.jpg'
+# parser = VeryfiParser(filename)
+# items = parser.get_line_items()
+# print(items)
 
 # print(parser.response)

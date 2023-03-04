@@ -1,10 +1,10 @@
 from typing import List
-from Product import Product
+from product_search.models.Product import Product
 from dataclasses import dataclass
 
 @dataclass
 class Receipt:
-    id : int # should be created by the database??
+    id : int # should be created by the database
     products : List[Product]
     date : str
 
