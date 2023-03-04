@@ -1,17 +1,22 @@
+from product_search.models.Receipt import Receipt
+from product_search.models.VerifyParser import VeryfiParser
+from product_search.search_product import search_product
+
 def process_receipt(path_to_input_image):
     list_of_tuples = __image_to_list_of_tuples(path_to_input_image)
     list_of_products = __lot_to_lop(list_of_tuples)
-    datetime = __image_to_datetime(path_to_input_image)
-    receipt = Receipt(list_of_products, datetime)
+    date = __image_to_date(path_to_input_image)
+    receipt = Receipt(list_of_products, date)
     
     # push Receipt object to database
-    # push Receipt object to frontend
+    # database receipt object with id
+    # push Receipt object to frontend with date converted to datetime
 
 def __image_to_list_of_tuples(path_to_input_image):
     parser = VeryfiParser(path_to_input_image)
     return parser.get_line_items()
 
-def __image_to_datetime(path_to_input_image):
+def __image_to_date(path_to_input_image):
     parser = VeryfiParser(path_to_input_image)
     return parser.get_date()
 

@@ -1,11 +1,7 @@
 from dataclasses import dataclass
-<<<<<<< Updated upstream
-from typing import List
-=======
 from bs4 import BeautifulSoup
 import requests
 import json
->>>>>>> Stashed changes
 
 @dataclass
 class Product:

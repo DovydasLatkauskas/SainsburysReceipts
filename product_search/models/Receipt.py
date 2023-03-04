@@ -1,20 +1,19 @@
 from typing import List
 from Product import Product
-import datetime
 from dataclasses import dataclass
 
 @dataclass
 class Receipt:
     id : int # should be created by the database??
     products : List[Product]
-    datetime : datetime.datetime
+    date : str
 
     def __init__(self, products, datetime):
         self.products = products
-        self.datetime = datetime
+        self.date = date
 
     def get_products(self):
         return self.products
     
-    def get_datetime(self):
-        return self.datetime
+    def get_date(self):
+        return self.date
