@@ -1,4 +1,4 @@
-# from Receipt import Receipt
+import json
 from product_search.models.Product import Product
 from serpapi import GoogleSearch
 from private_api_key import private_api_key
@@ -26,10 +26,14 @@ def __get_product_link(input_product : Product):
 
     search = GoogleSearch(params)
     results = search.get_dict()
-    return results
+    link = __get_link_from_results(results)
+    return link
 
 def __populate_product_using_link(input_product : Product, link : str):
     pass
+
+def __get_link_from_results(results):
+    return results["organic_results"][0]["link"]
 
 def __pounds_to_pence(price_in_pence: int):
     pounds = price_in_pence // 100
