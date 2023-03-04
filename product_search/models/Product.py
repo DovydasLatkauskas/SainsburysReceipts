@@ -7,6 +7,7 @@ class Product:
     price : int
     name_on_receipt : str
     name_on_website : str
+    link_to_product : str
     image_link : str
     # category info?
     # nutritional info?
