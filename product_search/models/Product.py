@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from bs4 import BeautifulSoup
 import requests
 import json
+import re
 
 @dataclass
 class Product:
@@ -41,23 +42,39 @@ class Product:
         
         return params
     
-    def populate_product_using_link(self, link):
+    def populate_product_using_link(self, link, imlink):
         """done by martina, populates product object with data from Sainsbury's website"""
-        def fix_url(url):
-            new_url = 'https://www.sainsburys.co.uk/groceries-api/gol-services/product/v1/product?filter[product_seo_url]=gb%2Fgroceries%2F'
-            ending_index = url.rfind('/')
+        #def fix_url(url):
+        new_url = 'https://www.sainsburys.co.uk/groceries-api/gol-services/product/v1/product?filter[product_seo_url]=gb%2Fgroceries%2F'
+        ending_index = link.rfind('/')
             #print(ending_index)
             #new_url = new_url + url[ending_index+1:]
             #print(new_url)
-            return new_url + url[ending_index+1:]
+        new_url = new_url + link[ending_index+1:]
 
-        page = requests.head(fix_url(link))
-        html = page.content
-        soup = BeautifulSoup(html, 'html.parser')
-        json_site = json.loads(soup.text)
+        
+        def scrape_url(link):
+            page = requests.get(new_url)
+            html = page.content
+            soup = BeautifulSoup(html, 'html.parser')
+            json_site = json.loads(soup.text)
+            
+            return json_site
+        
+        json_site = scrape_url(link)
+        if json_site['errors']:
+            print(imlink)
+            r = re.search(r"\/(\d+)\/", imlink)
+            r = r.group(0)
+            print('r', r)
+            new_url = new_url + '-' + r[1:-1] + '-p'
+            print(new_url)
+            scrape_url(new_url)
+            
+        print(json_site)
         category = json_site['products'][0]["breadcrumbs"][0]["label"]
         name_on_website = json_site['products'][0]['name']
         image_link = json_site['products'][0]['image']
 
-c = Product(0.6, 'hello')
-print(c.category)
+#c = Product(0.6, 'hello')
+#print(c.category)
