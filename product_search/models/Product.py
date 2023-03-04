@@ -1,3 +1,6 @@
+from dataclasses import dataclass
+
+@dataclass
 class Product:
     # instance variables
     id : int # should be created by the database??

@@ -1,6 +1,8 @@
 from Product import Product
 import datetime
+from dataclasses import dataclass
 
+@dataclass
 class Receipt:
     id : int # should be created by the database??
     products : [Product]
