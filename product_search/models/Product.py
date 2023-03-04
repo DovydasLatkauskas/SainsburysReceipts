@@ -29,7 +29,7 @@ class Product:
     #     self.price = new_price
     
     def product_to_serpapi_json(self,private_api_key):
-    """converts the product object to a json that will be used in the google search"""
+        """converts the product object to a json that will be used in the google search"""
 
         params = {
         "q": self.name_on_receipt,

@@ -24,9 +24,8 @@ class GoogleProductSearch():
     
     def __product_to_serpapi_json(self) -> dict:
         """converts the product object to a json that will be used in the google search"""
-
         self.params = {
-            "q": self.line_item.name_on_receipt,
+            "q": self.line_item.name_on_receipt + "site:https://www.sainsburys.co.uk/",
                 "hl": "en",
                 "gl": "uk",
                 "google_domain": "google.com",
