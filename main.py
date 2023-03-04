@@ -18,7 +18,7 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS receipts (
 # check whether table PROJECTS exists, if not, create it
 cursor.execute("""CREATE TABLE IF NOT EXISTS products (
     id INTEGER PRIMARY KEY ,
-    price_in_pence INTEGER,
+    price INTEGER,
     name_on_receipt TEXT,
     name_on_website TEXT,
     link_to_product TEXT,
@@ -45,9 +45,17 @@ async def add_receipt(list_of_correct_tuples,date):
     #create a list of products from the list of product tuples from user
     list_of_products = __lot_to_lop(list_of_correct_tuples)
     receipt = Receipt(products=list_of_products,datetime=date)
+    add_to_database(receipt)
 
 
 def add_to_database(receipt: Receipt):
     cursor.execute("""
-    
-    """)
+    INSERT INTO receipts (id, date) VALUES (?, ?);
+    """, (receipt.id, receipt.date))
+    conn.commit()
+    for product in receipt.products:
+        cursor.execute("""
+        INSERT INTO products (id, price, name_on_receipt, name_on_website, link_to_product, image_link, category, receipts_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+        """, (product.id, product.price, product.name_on_receipt, product.name_on_website, product.link_to_product, product.image_link, product.category, receipt.id))
+        conn.commit()
