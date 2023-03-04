@@ -1,7 +1,6 @@
 def process_receipt(path_to_input_image):
     list_of_tuples = __image_to_list_of_tuples(path_to_input_image)
     list_of_products = __lot_to_lop(list_of_tuples)
-    __populate_products(list_of_products)
     datetime = __image_to_datetime(path_to_input_image)
     receipt = Receipt(list_of_products, datetime)
     
@@ -20,8 +19,6 @@ def __lot_to_lop(list_of_tuples):
     output = list()
     for product_tuple in list_of_tuples:
         output.append(Product(product_tuple[1], product_tuple[0]))
+    for product in output:
+        product = search_product(product)
     return output
-
-def __populate_products(list_of_products):
-    for product in list_of_products:
-        pass #TODO unfinished!

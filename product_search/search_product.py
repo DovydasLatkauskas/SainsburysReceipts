@@ -5,7 +5,7 @@ from private_api_key import private_api_key
 
 def search_product(input_product : Product):
     link = __get_product_link(input_product)
-    __populate_product_using_link(input_product, link)
+    input_product.populate_product_using_link(link)
     return input_product
 
 def __get_product_link(input_product : Product):
@@ -42,4 +42,3 @@ def __pounds_to_pence(price_in_pence: int):
     pounds = price_in_pence // 100
     pence = price_in_pence % 100
     return [pounds, pence]
-
