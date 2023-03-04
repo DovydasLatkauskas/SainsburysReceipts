@@ -1,56 +1,115 @@
 <!DOCTYPE html>
-<html class="h-full" lang="en" xml:lang="en">
+<html class="h-full bg-gray-100" lang="en" xml:lang="en">
   <head>
     <title>Sainsbury's History</title>
     <link href="output.css" rel="stylesheet" />
     <link href="https://rsms.me/inter/inter.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="script.js"></script>
   </head>
 
-  <body x-data="{ products: [] }" x-init="products = await getProducts()">
-    <div class="px-4 sm:px-6 lg:px-8">
-      <div class="mt-8 flow-root">
-        <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-            <table class="min-w-full divide-y divide-gray-300">
-              <thead>
-                <tr>
-                  <th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0" scope="col">
-                    Name
-                  </th>
-                  <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900" scope="col">Price</th>
-                  <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900" scope="col">Quantity</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-200 bg-white">
-                <template x-for="product in products">
-                  <tr>
-                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-0">
-                      <div class="flex items-center">
-                        <div class="h-10 w-10 flex-shrink-0">
-                          <img :src="product.image_url" class="h-10 w-10" alt="" />
-                        </div>
-                        <div class="ml-4">
-                          <div x-text="product.name" class="font-medium text-gray-900"></div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      <div x-text="product.price" class="text-gray-900"></div>
-                    </td>
-                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      <span
-                        x-text="product.quantity"
-                        class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"></span>
-                    </td>
-                  </tr>
-                </template>
-              </tbody>
-            </table>
-          </div>
+  <body x-data="{ tab: $persist('dashboard') }" class="h-full">
+    <!-- Static sidebar for desktop -->
+    <div class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
+      <!-- Sidebar component, this element can be swapped with another sidebar if I want -->
+      <div class="flex flex-grow flex-col overflow-y-auto bg-indigo-700 pt-5">
+        <div class="mt-5 flex flex-1 flex-col">
+          <nav class="flex-1 space-y-1 px-2 pb-4">
+            <a
+              :class="tab === 'dashboard' ? 'group flex items-center rounded-md bg-indigo-800 px-2 py-2 text-sm font-medium text-white' : 'group flex items-center rounded-md px-2 py-2 text-sm font-medium text-indigo-100 hover:bg-indigo-600'"
+              @click="tab='dashboard'"
+              x-cloak>
+              <svg
+                class="mr-3 h-6 w-6 flex-shrink-0 text-indigo-300"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+                aria-hidden="true">
+                <path
+                  d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+              Dashboard
+            </a>
+            <a
+              :class="tab === 'history' ? 'group flex items-center rounded-md bg-indigo-800 px-2 py-2 text-sm font-medium text-white' : 'group flex items-center rounded-md px-2 py-2 text-sm font-medium text-indigo-100 hover:bg-indigo-600'"
+              @click="tab='history'"
+              x-cloak>
+              <svg
+                class="mr-3 h-6 w-6 flex-shrink-0 text-indigo-300"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+                aria-hidden="true">
+                <path
+                  d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+              History
+            </a>
+          </nav>
         </div>
       </div>
     </div>
+
+    <!-- Dashboard Page Body -->
+    <template x-if="tab === 'dashboard'">
+      <div class="flex flex-1 flex-col lg:pl-64">placeholder</div>
+    </template>
+
+    <!-- History Page Body -->
+
+    <template x-if="tab === 'history'">
+      <div x-data="{ products: [] }" x-init="products = await getProducts()" class="flex flex-1 flex-col lg:pl-64">
+        <div class="px-4 sm:px-6 lg:px-8">
+          <div class="mt-8 flow-root">
+            <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                <table class="min-w-full divide-y divide-gray-300">
+                  <thead>
+                    <tr>
+                      <th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0" scope="col">
+                        Name
+                      </th>
+                      <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900" scope="col">Price</th>
+                      <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900" scope="col">Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-200 bg-white">
+                    <template x-for="product in products">
+                      <tr>
+                        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-0">
+                          <div class="flex items-center">
+                            <div class="h-10 w-10 flex-shrink-0">
+                              <img :src="product.image_url" class="h-10 w-10" alt="" />
+                            </div>
+                            <div class="ml-4">
+                              <div x-text="product.name" class="font-medium text-gray-900"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          <div x-text="product.price" class="text-gray-900"></div>
+                        </td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          <span
+                            x-text="product.quantity"
+                            class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"></span>
+                        </td>
+                      </tr>
+                    </template>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
   </body>
 </html>
