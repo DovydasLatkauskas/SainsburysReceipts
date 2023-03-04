@@ -1,6 +1,6 @@
 from product_search.models.Receipt import Receipt
 from product_search.models.Product import Product
-from product_search.models.VerifyParser import VeryfiParser
+from product_search.models.VeryfiParser import VeryfiParser
 from product_search.search_product import search_product
 
 def process_receipt(path_to_input_image):
