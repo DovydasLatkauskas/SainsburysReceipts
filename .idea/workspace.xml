@@ -138,7 +138,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1677940069144</updated>
-      <workItem from="1677940070829" duration="13713000" />
+      <workItem from="1677940070829" duration="14127000" />
     </task>
     <task id="LOCAL-00001" summary="Receipt reader api">
       <created>1677942507988</created>
@@ -159,6 +159,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Receipt reader api" />

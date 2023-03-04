@@ -10,16 +10,6 @@ import json
 @dataclass
 class Product:
     # instance variables
-<<<<<<< Updated upstream
-    id : int # should be created by the database??
-    price_in_pence : int
-    name_on_receipt : str
-    name_on_website : str
-    link_to_product : str
-    image_link : str
-    category_levels: List[str]
-    # category info?
-=======
     id : int = 0# should be created by the database??
     price : int = 0
     name_on_receipt : str = ''
@@ -27,18 +17,13 @@ class Product:
     link_to_product : str = ''
     image_link : str = ''
     category : str = ""
->>>>>>> Stashed changes
+
     # nutritional info?
 
     # def __init__(self): # uncomment if we want to create an empty instance of Product
     #     pass
 
-<<<<<<< Updated upstream
-    def __init__(self, price_in_pence, name_on_receipt): # data received from receipt
-        self.price_in_pence = price_in_pence
-        self.name_on_receipt = name_on_receipt
-=======
->>>>>>> Stashed changes
+
 
     # if we need getters and setters we can make them later
     # def get_price(self):
