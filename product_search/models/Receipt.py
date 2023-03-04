@@ -4,13 +4,9 @@ from dataclasses import dataclass
 
 @dataclass
 class Receipt:
-    id : int # should be created by the database
     products : List[Product]
     date : str
-
-    def __init__(self, products, datetime):
-        self.products = products
-        self.date = date
+    id : int = 8 # should be created by the database
 
     def get_products(self):
         return self.products

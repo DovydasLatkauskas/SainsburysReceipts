@@ -5,6 +5,7 @@ from test_main import lod_to_lop
 from private_api_key import private_api_key
 from product_search.models.Product import Product
 from product_search.models.Receipt import Receipt
+from pydantic import BaseModel
 import sqlite3
 
 def tuples_to_json(tuples):
@@ -45,6 +46,10 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS products (
 async def root():
     return {"message": "Hello World"}
 
+class JSON_OBJECT(BaseModel):
+    date: str
+    line_items: list
+
 @app.post("/api/raw_receipt")
 async def scan_receipt(image):
     list_of_tuples = image_to_list_of_tuples(image)
@@ -62,11 +67,11 @@ print(json_list)
 
 
 @app.post("/api/submit_receipt")
-async def add_receipt(json):
+async def add_receipt(json: JSON_OBJECT):
     #create a list of products from the list of product tuples from user
-    line_items = json["line_items"]
+    line_items = json.line_items
     list_of_products = lod_to_lop(line_items)
-    receipt = Receipt(products=list_of_products,datetime=json["date"])
+    receipt = Receipt(products=list_of_products,date=json.date)
     add_to_database(receipt)
 
 

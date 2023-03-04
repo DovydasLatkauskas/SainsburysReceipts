@@ -3,6 +3,9 @@ from product_search.models.Receipt import Receipt
 from product_search.models.VeryfiParser import VeryfiParser
 from product_search.search_product import search_product
 from dataclasses import dataclass
+import requests
+from bs4 import BeautifulSoup
+import json
 
 @dataclass
 class Product:
