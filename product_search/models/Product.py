@@ -25,3 +25,19 @@ class Product:
     
     # def set_price(self, new_price):
     #     self.price = new_price
+    
+    def product_to_serpapi_json(self,private_api_key):
+    """converts the product object to a json that will be used in the google search"""
+
+        params = {
+        "q": self.name_on_receipt,
+            "hl": "en",
+            "gl": "uk",
+            "google_domain": "google.com",
+            "api_key": private_api_key
+        }
+        
+        return params
+    
+    def populate_product_using_link(self, link):
+        """done by martina, populates product object with data from Sainsbury's website"""
