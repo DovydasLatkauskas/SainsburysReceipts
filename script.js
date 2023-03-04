@@ -52,3 +52,37 @@ async function getReceipts() {
         },
     ];
 }
+
+function importData() {
+    let input = document.createElement("input");
+    input.type = "file";
+    input.onchange = (_) => {
+        let files = Array.from(input.files);
+        console.log(files);
+    };
+    input.click();
+}
+
+function loadPieChart(el) {
+    google.charts.load("current", { packages: ["corechart"] });
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ["Category", "Units"],
+            ["Dairy", 3],
+            ["Confectionary", 20],
+            ["Pizza", 8],
+        ]);
+        var options = {
+            colors: ["#7F0442", "#F06C00", "#837F5D", "#0C1B33", "#7B6080"],
+            width: 500,
+            height: 400,
+            chartArea: { width: "100%", height: "80%" },
+            backgroundColor: { fill: "transparent" },
+            fontSize: 16,
+            pieHole: 0.4,
+        };
+        var chart = new google.visualization.PieChart(el);
+        chart.draw(data, options);
+    }
+}
