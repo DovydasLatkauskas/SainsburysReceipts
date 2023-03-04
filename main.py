@@ -1,7 +1,18 @@
 from fastapi import FastAPI
+from test_main import image_to_list_of_tuples
+from test_main import image_to_date
+from test_main import lod_to_lop
+from private_api_key import private_api_key
 from product_search.models.Product import Product
 from product_search.models.Receipt import Receipt
 import sqlite3
+
+def tuples_to_json(tuples):
+    json_list = []
+    for item in tuples:
+        json_list.append({"name":item[0],"price":item[1]})
+    
+    return json_list
 
 app = FastAPI()
 
@@ -36,16 +47,31 @@ async def root():
 
 @app.post("/api/raw_receipt")
 async def scan_receipt(image):
-    list_of_tuples = __image_to_list_of_tuples(image)
-    date = __image_to_date(image)
-    return list_of_tuples, date
+    list_of_tuples = image_to_list_of_tuples(image)
+    json_list = tuples_to_json(list_of_tuples)
+    date = image_to_date(image)
+    json = {"date":date,"line_items":json_list}
+    return json
+
+'''
+image = "DSC_0058.JPG"
+list_of_tuples = image_to_list_of_tuples(image)
+json_list = tuples_to_json(list_of_tuples)
+print(json_list)
+'''
+
 
 @app.post("/api/submit_receipt")
-async def add_receipt(list_of_correct_tuples,date):
+async def add_receipt(json):
     #create a list of products from the list of product tuples from user
-    list_of_products = __lot_to_lop(list_of_correct_tuples)
-    receipt = Receipt(products=list_of_products,datetime=date)
+    line_items = json["line_items"]
+    list_of_products = lod_to_lop(line_items)
+    receipt = Receipt(products=list_of_products,datetime=json["date"])
     add_to_database(receipt)
+
+
+
+
 
 
 def add_to_database(receipt: Receipt):

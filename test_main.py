@@ -80,10 +80,10 @@ class Receipt:
         return self.datetime 
 
 def process_receipt(path_to_input_image):
-    list_of_tuples = __image_to_list_of_tuples(path_to_input_image)
+    list_of_tuples = image_to_list_of_tuples(path_to_input_image)
     list_of_tuples = list_of_tuples[1:] #for testing purposes only; remove problematic irn bru for now
-    list_of_products = __lot_to_lop(list_of_tuples)
-    date = __image_to_date(path_to_input_image)
+    list_of_products = lot_to_lop(list_of_tuples)
+    date = image_to_date(path_to_input_image)
     receipt = Receipt(list_of_products, date)
 
     print("length of products:", len(receipt.products))
@@ -92,15 +92,15 @@ def process_receipt(path_to_input_image):
     # database receipt object with id
     # push Receipt object to frontend with date converted to datetime
 
-def __image_to_list_of_tuples(path_to_input_image):
+def image_to_list_of_tuples(path_to_input_image):
     parser = VeryfiParser(path_to_input_image)
     return parser.get_line_items()
 
-def __image_to_date(path_to_input_image):
+def image_to_date(path_to_input_image):
     parser = VeryfiParser(path_to_input_image)
     return parser.get_date()
 
-def __lot_to_lop(list_of_tuples):
+def lot_to_lop(list_of_tuples):
     output = list()
     for product_tuple in list_of_tuples:
         print(product_tuple)
@@ -109,6 +109,15 @@ def __lot_to_lop(list_of_tuples):
         product = search_product(product)
     return output
 
+def lod_to_lop(list_of_dicts):
+    output = list()
+    for product in list_of_dicts:
+        print(product)
+        output.append(Product(name_on_receipt=product["name"],price=product["price"]))
+    for product in output:
+        product = search_product(product)
+    return output
 
-image_path = "DSC_0058.JPG"
-process_receipt(path_to_input_image=image_path)
+def __init__():
+    image_path = "DSC_0058.JPG"
+    process_receipt(path_to_input_image=image_path)
