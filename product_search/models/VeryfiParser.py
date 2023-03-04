@@ -49,6 +49,3 @@ class VeryfiParser():
                 self.items.append(tuple([item['description'], item['total']]))
 
             return self.items
-
-
-
