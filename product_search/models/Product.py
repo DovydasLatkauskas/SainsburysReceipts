@@ -63,15 +63,15 @@ class Product:
         
         json_site = scrape_url(link)
         if json_site['errors']:
-            print(imlink)
+            #print(imlink)
             r = re.search(r"\/(\d+)\/", imlink)
             r = r.group(0)
-            print('r', r)
+           # print('r', r)
             new_url = new_url + '-' + r[1:-1] + '-p'
-            print(new_url)
+            #print(new_url)
             scrape_url(new_url)
             
-        print(json_site)
+       # print(json_site)
         category = json_site['products'][0]["breadcrumbs"][0]["label"]
         name_on_website = json_site['products'][0]['name']
         image_link = json_site['products'][0]['image']
