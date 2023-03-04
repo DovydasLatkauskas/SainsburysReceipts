@@ -53,12 +53,13 @@ async function getReceipts() {
     ];
 }
 
-function importData() {
+function importData(data) {
     let input = document.createElement("input");
     input.type = "file";
     input.onchange = (_) => {
         let files = Array.from(input.files);
         console.log(files);
+        data.modal = true;
     };
     input.click();
 }
