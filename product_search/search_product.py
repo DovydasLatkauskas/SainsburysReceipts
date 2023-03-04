@@ -4,17 +4,16 @@ from serpapi import GoogleSearch
 from private_api_key import private_api_key
 
 def search_product(input_product : Product):
-    link = __get_product_link(input_product)
+    link = get_product_link(input_product)
     input_product.populate_product_using_link(link)
     return input_product
 
-def __get_product_link(input_product : Product):
+def get_product_link(input_product : Product):
     name_on_receipt = input_product.name_on_receipt
 
-    price_in_pounds : [int] = __pounds_to_pence(input_product.price_in_pence)
     # returns [pounds, pence] in int
 
-    search_query : str = f"{name_on_receipt} £{price_in_pounds[0]}.{price_in_pounds[1]} site:https://www.sainsburys.co.uk/"
+    search_query : str = f"{name_on_receipt} £{input_product.price} Sainsbury's"
     # e.g. "cocoa powder £3.15 site:https://www.sainsburys.co.uk/"
 
 
@@ -30,8 +29,12 @@ def __get_product_link(input_product : Product):
 
     results = search.get_dict()
     link = __get_link_from_results(results)
-    return link
+    image_link = __get_inline_image_link(results)
+    return link, image_link
 
+def __get_inline_image_link(results):
+    return results["inline_images"][0]["original"]
+    
 def __populate_product_using_link(input_product : Product, link : str):
     pass
 
