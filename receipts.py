@@ -27,7 +27,8 @@ class VerifyParser():
             response = veryfi_client.process_document(self.file_path,
                                                       categories=self.categories)
             self.response = response
-            json.dumps(self.response)
+            with open("response.json", "w") as f:
+                json.dump(self.response, f)
 
     def get_date(self) -> str:
         if self.items == None:
