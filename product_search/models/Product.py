@@ -38,3 +38,6 @@ class Product:
         }
         
         return params
+    
+    def populate_product_using_link(self):
+        """done by martina, populates product object with data from Sainsbury's website"""
