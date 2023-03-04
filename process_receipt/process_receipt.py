@@ -26,7 +26,7 @@ def __image_to_date(path_to_input_image):
 def __lot_to_lop(list_of_tuples):
     output = list()
     for product_tuple in list_of_tuples:
-        output.append(Product(product_tuple[1], product_tuple[0]))
+        output.append(Product(name_on_receipt=product_tuple[0],price=product_tuple[1]))
     for product in output:
         product = search_product(product)
     return output
