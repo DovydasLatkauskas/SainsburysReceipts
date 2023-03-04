@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import List
 
 @dataclass
 class Product:
@@ -9,6 +10,7 @@ class Product:
     name_on_website : str
     link_to_product : str
     image_link : str
+    category_levels: List[str]
     # category info?
     # nutritional info?
 

@@ -1,3 +1,4 @@
+from typing import List
 from Product import Product
 import datetime
 from dataclasses import dataclass
@@ -5,7 +6,7 @@ from dataclasses import dataclass
 @dataclass
 class Receipt:
     id : int # should be created by the database??
-    products : [Product]
+    products : List[Product]
     datetime : datetime.datetime
 
     def __init__(self, products, datetime):
