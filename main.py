@@ -85,7 +85,7 @@ async def scan_receipt(my_file: UploadFile = File(...)):
     #create json to be sent to frontend with basic receipt data 
     #json = {"date":date,"line_items":json_list}
     #print("returning json")
-    return json
+    return {"null":"nothing"}
 
 
 @app.post("/api/submit_receipt")
