@@ -3,11 +3,12 @@ from bs4 import BeautifulSoup
 import requests
 import json
 import re
+import uuid
 
 @dataclass
 class Product:
     # instance variables
-    id : int = 0# should be created by the database??
+    id : int = uuid.uuid4()# should be created by the database??
     price : int = 0
     name_on_receipt : str = ''
     name_on_website : str = ''
