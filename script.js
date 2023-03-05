@@ -13,17 +13,24 @@ function importData(data) {
     let input = document.createElement("input");
     input.type = "file";
     input.onchange = (_) => {
-        const form = new FormData();
-        form.append("my_file", input.files[0]);
-        fetch("http://localhost:8000/api/upload_receipt", {
-            // Your POST endpoint
-            method: "POST",
-            mode: "no-cors",
-            body: form,
-        });
-        data.modal = true;
+        var reader = new FileReader();
+        reader.addEventListener(
+            "load",
+            function () {
+                var dataString = reader.result;
+                fetch("http://localhost:8000/api/upload_receipt", {
+                    // Your POST endpoint
+                    method: "POST",
+                    mode: "no-cors",
+                    body: dataString,
+                });
+            },
+            false
+        );
+        reader.readAsBinaryString(input.files[0]);
     };
     input.click();
+    data.modal = true;
 }
 
 function loadPieChart(el) {
