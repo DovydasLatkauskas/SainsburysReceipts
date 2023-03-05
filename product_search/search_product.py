@@ -5,7 +5,10 @@ from serpapi import GoogleSearch
 def search_product(input_product : Product):
     link,imlink = get_product_link(input_product)
 
-    input_product.populate_product_using_link(link,imlink)
+    print('here')
+    print(link)
+    print(imlink)
+    input_product.populate_product_using_link(link)
     return input_product
 
 

@@ -47,7 +47,7 @@ class Product:
         
         return params
     
-    def populate_product_using_link(self, link, imlink):
+    def populate_product_using_link(self, link):
         """done by martina, populates product object with data from Sainsbury's website"""
         #def fix_url(url):
         new_url = 'https://www.sainsburys.co.uk/groceries-api/gol-services/product/v1/product?filter[product_seo_url]=gb%2Fgroceries%2F'

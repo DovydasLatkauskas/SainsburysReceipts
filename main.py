@@ -248,5 +248,5 @@ def add_to_database(receipt: Receipt):
         cursor.execute("""
         INSERT INTO products (id, price, name_on_receipt, name_on_website, link_to_product, image_link, category, receipts_id)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?);
-        """, (random.randint(0,1827), product.price, product.name_on_receipt, product.name_on_website, product.link_to_product, product.image_link, product.category, receipt.id))
+        """, (random.randint(0,10000000), product.price, product.name_on_receipt, product.name_on_website, product.link_to_product, product.image_link, product.category, receipt.id))
         conn.commit()
