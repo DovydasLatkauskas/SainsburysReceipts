@@ -57,8 +57,12 @@ function importData(data) {
     let input = document.createElement("input");
     input.type = "file";
     input.onchange = (_) => {
-        let files = Array.from(input.files);
-        //console.log(files);
+        fetch("http://localhost:8000/api/upload_receipt", {
+            // Your POST endpoint
+            method: "POST",
+            mode: "no-cors",
+            body: input.files[0],
+        });
         data.modal = true;
     };
     input.click();
@@ -106,21 +110,21 @@ async function submitForm(data) {
 }
 
 // this doesn't work and I can't fix it :(
-let auth0Client = null;
-window.onload = async function (e) {
-    auth0Client = await window.auth0.createAuth0Client({
-        domain: "dev-f1l6uy3hj102ba78.uk.auth0.com",
-        clientId: "c0slXneAJT5ne8ULL6U0EOg53WRGhqzQ",
-        authorizationParams: {
-            redirect_uri: "http://localhost:8000/app.html",
-        },
-    });
-    // await auth0Client.loginWithRedirect();
-    // if (
-    //     location.search.includes("state=") &&
-    //     (location.search.includes("code=") || location.search.includes("error="))
-    // ) {
-    //     await auth0Client.handleRedirectCallback();
-    //     // window.history.replaceState({}, document.title, "/");
-    // }
-};
+// let auth0Client = null;
+// window.onload = async function (e) {
+//     auth0Client = await window.auth0.createAuth0Client({
+//         domain: "dev-f1l6uy3hj102ba78.uk.auth0.com",
+//         clientId: "c0slXneAJT5ne8ULL6U0EOg53WRGhqzQ",
+//         authorizationParams: {
+//             redirect_uri: "http://localhost:8000/app.html",
+//         },
+//     });
+//     await auth0Client.loginWithRedirect();
+//     if (
+//         location.search.includes("state=") &&
+//         (location.search.includes("code=") || location.search.includes("error="))
+//     ) {
+//         await auth0Client.handleRedirectCallback();
+//         // window.history.replaceState({}, document.title, "/");
+//     }
+// };
