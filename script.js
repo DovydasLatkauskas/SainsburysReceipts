@@ -78,6 +78,7 @@ function loadPieChart(el) {
             colors: ["#7F0442", "#F06C00", "#837F5D", "#0C1B33", "#7B6080"],
             width: 500,
             height: 400,
+            enableInteractivity: false,
             chartArea: { width: "100%", height: "80%" },
             backgroundColor: { fill: "transparent" },
             fontSize: 16,
@@ -87,3 +88,23 @@ function loadPieChart(el) {
         chart.draw(data, options);
     }
 }
+
+// this doesn't work and I can't fix it :(
+let auth0Client = null;
+window.onload = async function (e) {
+    auth0Client = await window.auth0.createAuth0Client({
+        domain: "dev-f1l6uy3hj102ba78.uk.auth0.com",
+        clientId: "c0slXneAJT5ne8ULL6U0EOg53WRGhqzQ",
+        authorizationParams: {
+            redirect_uri: "http://localhost:8000/app.html",
+        },
+    });
+    // await auth0Client.loginWithRedirect();
+    // if (
+    //     location.search.includes("state=") &&
+    //     (location.search.includes("code=") || location.search.includes("error="))
+    // ) {
+    //     await auth0Client.handleRedirectCallback();
+    //     // window.history.replaceState({}, document.title, "/");
+    // }
+};
