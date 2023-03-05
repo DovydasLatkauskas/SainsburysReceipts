@@ -13,7 +13,7 @@
   </head>
 
   <body
-    x-data="{ tab: $persist('dashboard'), modal: $persist(false), message: 'Welcome!', login_button_text: 'Login', dataToVerify: {'date':'234', 'line_items': [{'name':'LINDT INTENSE ORANG','price':'1.60','quantity':'1'}]} }"
+    x-data="{ tab: $persist('dashboard'), modal: false, receipt_status: null, message: 'Welcome!', login_button_text: 'Login', dataToVerify: false }"
     x-init="onPageLoad($data)"
     class="h-full w-full">
     <!-- Static sidebar for desktop -->
@@ -84,22 +84,29 @@
 
     <!-- Dashboard Page Body -->
     <template x-if="tab === 'dashboard'">
-      <div class="overflow-hidden">
+      <div
+        x-data="{ nectar_points: 0, expenses: 0, category_data: false }"
+        x-init="getDashboard($data)"
+        class="overflow-hidden">
         <p x-text="message" class="m-4 text-5xl font-bold text-plum-base lg:pl-64"></p>
         <div class="m-4 flex w-full flex-1 flex-row flex-wrap items-start gap-4 lg:pl-64">
           <div class="rounded-lg border border-gray-200 bg-white p-6 shadow ring-1 ring-black ring-opacity-5">
             <p class="text-4xl font-bold tracking-tight text-plum-base text-gray-900 dark:text-white">
               Monthly Expenses
             </p>
-            <div x-init="loadPieChart($el)" class="w-500 h-500"></div>
+            <template x-if="category_data">
+              <div x-init="loadPieChart($el, category_data)" class="w-500 h-500"></div>
+            </template>
           </div>
           <div>
             <div class="mb-4 rounded-lg border border-gray-200 bg-white p-6 shadow ring-1 ring-black ring-opacity-5">
-              <p class="mb-2 text-center text-5xl font-bold tracking-tight text-plum-base">£349.65</p>
+              <p
+                x-text="'£' + expenses.toFixed(2)"
+                class="mb-2 text-center text-5xl font-bold tracking-tight text-plum-base"></p>
               <p class="text-center font-bold text-gray-900">Monthly Spending</p>
             </div>
             <div class="rounded-lg border border-gray-200 bg-white p-6 px-20 shadow ring-1 ring-black ring-opacity-5">
-              <p class="mb-2 text-center text-8xl font-bold tracking-tight text-plum-base">127</p>
+              <p x-text="nectar_points" class="mb-2 text-center text-8xl font-bold tracking-tight text-plum-base"></p>
               <p class="text-center font-bold text-gray-900">Nectar Points</p>
             </div>
           </div>
@@ -150,7 +157,7 @@
                                 </div>
                               </td>
                               <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                <div x-text="'£' + product.price" class="text-gray-900"></div>
+                                <div x-text="'£' + product.price.toFixed(2)" class="text-gray-900"></div>
                               </td>
                               <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                 <span
@@ -212,9 +219,26 @@
             x-transition:leave="ease-in duration-200"
             x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
             x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+            class="relative transform items-center justify-center overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
             <div>
-              <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+              <div x-show="receipt_status === 'Loading...'">
+                <svg
+                  class="mx-auto flex h-12 w-12 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600"
+                  fill="none"
+                  viewBox="0 0 100 101"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true">
+                  <path
+                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                    fill="currentColor" />
+                  <path
+                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                    fill="currentFill" />
+                </svg>
+              </div>
+              <div
+                x-show="receipt_status === 'Upload successful'"
+                class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
                 <svg
                   class="h-6 w-6 text-green-600"
                   fill="none"
@@ -226,9 +250,12 @@
                 </svg>
               </div>
               <div class="mt-3 text-center sm:mt-5">
-                <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Upload successful</h3>
+                <h3
+                  x-text="receipt_status"
+                  class="text-base font-semibold leading-6 text-gray-900"
+                  id="modal-title"></h3>
                 <div class="mt-2">
-                  <table class="min-w-full divide-y divide-gray-300">
+                  <table x-show="dataToVerify" class="min-w-full divide-y divide-gray-300">
                     <thead class="select-none bg-gray-200">
                       <tr>
                         <th
@@ -261,7 +288,6 @@
                           </td>
                           <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             <input
-                              x-model="row.quantity"
                               class="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                               value="1" />
                           </td>

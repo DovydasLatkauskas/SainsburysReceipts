@@ -1,3 +1,16 @@
+async function getDashboard(data) {
+    var response = await fetch("http://localhost:8000/api/dashboard", {
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+        },
+    });
+    response = await response.json();
+    data.nectar_points = response.nectar_points;
+    data.expenses = response.expenses;
+    data.category_data = response.category_data;
+}
+
 async function getReceipts() {
     var response = await fetch("http://localhost:8000/api/history", {
         method: "GET",
@@ -12,37 +25,29 @@ async function getReceipts() {
 function importData(data) {
     let input = document.createElement("input");
     input.type = "file";
-    input.onchange = (_) => {
-        var reader = new FileReader();
-        reader.addEventListener(
-            "load",
-            function () {
-                var dataString = reader.result;
-                fetch("http://localhost:8000/api/upload_receipt", {
-                    // Your POST endpoint
-                    method: "POST",
-                    mode: "no-cors",
-                    body: dataString,
-                });
-            },
-            false
-        );
-        reader.readAsBinaryString(input.files[0]);
+    input.onchange = async (_) => {
+        data.modal = true;
+        data.receipt_status = "Loading...";
+        var form = new FormData();
+        form.append("my_file", input.files[0]);
+        // form.append("my_file", dataString);
+        var response = await fetch("http://localhost:8000/api/uploadfile", {
+            // Your POST endpoint
+            method: "POST",
+            body: form,
+        });
+        data.receipt_status = "Upload successful";
+        response = await response.json();
+        data.dataToVerify = response;
     };
     input.click();
-    data.modal = true;
 }
 
-function loadPieChart(el) {
+function loadPieChart(el, category_data) {
     google.charts.load("current", { packages: ["corechart"] });
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-            ["Category", "Units"],
-            ["Dairy", 3],
-            ["Confectionary", 20],
-            ["Pizza", 8],
-        ]);
+        var data = google.visualization.arrayToDataTable([["Category", "Units"]].concat(Object.entries(category_data)));
         var options = {
             colors: ["#7F0442", "#F06C00", "#837F5D", "#0C1B33", "#7B6080"],
             width: 500,
@@ -69,9 +74,8 @@ async function submitForm(data) {
         },
         body: JSON.stringify(data.dataToVerify),
     });
-    // response = await response.json();
-    // console.log(JSON.stringify(response));
     data.modal = false;
+    data.dataToVerify = false;
 }
 
 async function login() {
