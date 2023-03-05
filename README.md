@@ -5,7 +5,11 @@ A program that lets you scan your sainsbury's receipts and view spending stats. 
 
 ## Sainsbury's Challenge
 
-Our proposal is to integrate these features with the nectar card, so that customers can access a more detailed purchase history and have a better overview of their spending; purchases made when using the nectar card can automatically be added to a customer's purchase history, and any purchases made without the card can be added later with the receipt scanning feature.
+Our proposal is to integrate these features with the nectar card.
+
+Nectar card holders could benefit from a more detailed overview of their spending habits with Sainsbury's, with a detailed purchase history and an easily accessible record of each item bought using nectar card, as well as a higher level breakdowns of their spending habits and the ability to set goals for e.g. spending less on sweets and more on fruits and vegetables.
+
+Purchases made when using the nectar card can automatically be added to a customer's purchase history, and any purchases made without the card can be added later with the receipt scanning feature.
 
 
 ## Usage
