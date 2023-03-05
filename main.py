@@ -11,6 +11,7 @@ import sqlite3
 import aiofiles
 import numpy as np
 import random
+from fastapi.middleware.cors import CORSMiddleware
 
 def tuples_to_json(tuples):
     json_list = []
@@ -21,6 +22,16 @@ def tuples_to_json(tuples):
 
 app = FastAPI()
 
+#fix problems with cors
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 conn = sqlite3.connect('sainsburys.db')
 cursor = conn.cursor()
 
@@ -44,7 +55,7 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS products (
     FOREIGN KEY (receipts_id) REFERENCES receipts (id)
     );""")
 
-
+ 
 class JSON_OBJECT(BaseModel):
     date: str
     line_items: list
