@@ -47,7 +47,7 @@ class Product:
         
         return params
     
-    def populate_product_using_link(self, link):
+    def populate_product_using_link(self, link, imlink):
         """done by martina, populates product object with data from Sainsbury's website"""
         #def fix_url(url):
         new_url = 'https://www.sainsburys.co.uk/groceries-api/gol-services/product/v1/product?filter[product_seo_url]=gb%2Fgroceries%2F'
@@ -87,35 +87,39 @@ class Product:
         
         self.name_on_website = json_site['products'][0]['name']
         self.image_link = json_site['products'][0]['image']
-       # categories to change : list("Fruit & vegetables", "Meat & fish", "Dairy, eggs & chilled", "Food cupboard")
+        dairy_prod_list = ["Desserts", "Dairy & eggs", "World foods, kosher & halal", "Vegetarian, vegan & dairy free"]
+        food_cup_list = ["Confectionery", "Rice, pasta & noodles", "Biscuits & crackers"]
+      
+     # categories to change : list("Fruit & vegetables", "Meat & fish", "Dairy, eggs & chilled", "Food cupboard")
         try:
-            if json_site['products'][0]["breadcrumbs"][0]["label"] == "Fruit & vegetables":
-                if json_site['products'][0]["breadcrumbs"][1]["label"] == "Fresh fruit":
-                    self.category = json_site['products'][0]["breadcrumbs"][1]["label"] 
-                else:
-                    self.category = "Vegetables"
-                
-            if json_site['products'][0]["breadcrumbs"][0]["label"] == "Meat & fish":
-                if json_site['products'][0]["breadcrumbs"][1]["label"] == "Fish & seafood":
-                    self.category = json_site['products'][0]["breadcrumbs"][1]["label"] 
-                else:
-                    self.category = "Meat"
-                
-            dairy_prod_list = ["Desserts", "Dairy & eggs", "World foods, kosher & halal", "Vegetarian, vegan & dairy free"]
-            if json_site['products'][0]["breadcrumbs"][0]["label"] == "Dairy, eggs & chilled":
-                if json_site['products'][0]["breadcrumbs"][1]["label"] in dairy_prod_list:
-                    self.category = json_site['products'][0]["breadcrumbs"][1]["label"] 
-                else:
-                    self.category = "Chilled and ready made"
-                    
-            food_cup_list = ["Confectionery", "Rice, pasta & noodles", "Biscuits & crackers"]
-            if json_site['products'][0]["breadcrumbs"][0]["label"] == "Food cupboard":
-                if json_site['products'][0]["breadcrumbs"][1]["label"] in food_cup_list:
-                    self.category = json_site['products'][0]["breadcrumbs"][1]["label"] 
-                else:
-                    self.category = "Food cupboard"
+          if json_site['products'][0]["breadcrumbs"][0]["label"] == "Fruit & vegetables":
+              if json_site['products'][0]["breadcrumbs"][1]["label"] == "Fresh fruit":
+                  self.category = json_site['products'][0]["breadcrumbs"][1]["label"] 
+              else:
+                  self.category = "Vegetables"
+              
+          elif json_site['products'][0]["breadcrumbs"][0]["label"] == "Meat & fish":
+              if json_site['products'][0]["breadcrumbs"][1]["label"] == "Fish & seafood":
+                  self.category = json_site['products'][0]["breadcrumbs"][1]["label"] 
+              else:
+                  self.category = "Meat"
+              
+          elif json_site['products'][0]["breadcrumbs"][0]["label"] == "Dairy, eggs & chilled":
+              if json_site['products'][0]["breadcrumbs"][1]["label"] in dairy_prod_list:
+                  self.category = json_site['products'][0]["breadcrumbs"][1]["label"] 
+              else:
+                  self.category = "Chilled and ready made"
+                  
+          
+          elif json_site['products'][0]["breadcrumbs"][0]["label"] == "Food cupboard":
+              if json_site['products'][0]["breadcrumbs"][1]["label"] in food_cup_list:
+                  self.category = json_site['products'][0]["breadcrumbs"][1]["label"] 
+              else:
+                  self.category = "Food cupboard"
+          else:
+              self.category = json_site['products'][0]["breadcrumbs"][0]["label"]
         except IndexError:
-            self.category = 'None'
+          self.category = 'None'
             
 #c = Product(0.6, 'hello')
 #print(c.category)
