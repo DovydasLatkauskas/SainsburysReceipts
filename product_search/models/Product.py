@@ -8,7 +8,7 @@ import uuid
 @dataclass
 class Product:
     # instance variables
-    id : int = uuid.uuid4().int# should be created by the database??
+    id : int #= (uuid.uuid4().int>>96)# should be created by the database??
     price : int = 0
     name_on_receipt : str = ''
     name_on_website : str = ''
@@ -29,6 +29,9 @@ class Product:
     
     # def set_price(self, new_price):
     #     self.price = new_price
+
+    def set_id():
+        
     
     def product_to_serpapi_json(self,private_api_key):
         """converts the product object to a json that will be used in the google search"""
