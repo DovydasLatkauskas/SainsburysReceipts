@@ -237,7 +237,7 @@ def add_to_database(receipt: Receipt):
     INSERT INTO receipts (id, date)
     VALUES (?, ?)
     """
-    data =  (receipt.id, receipt.date)
+    data =  (random.randint(0,10000000), receipt.date)
     print("insertable data: ", data)
     cursor.execute(command, data)
     print("Inserted successfully")
