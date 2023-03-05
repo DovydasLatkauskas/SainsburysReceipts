@@ -57,11 +57,13 @@ function importData(data) {
     let input = document.createElement("input");
     input.type = "file";
     input.onchange = (_) => {
+        const form = new FormData();
+        form.append("my_file", input.files[0]);
         fetch("http://localhost:8000/api/upload_receipt", {
             // Your POST endpoint
             method: "POST",
             mode: "no-cors",
-            body: input.files[0],
+            body: form,
         });
         data.modal = true;
     };
@@ -109,22 +111,45 @@ async function submitForm(data) {
     data.modal = false;
 }
 
-// this doesn't work and I can't fix it :(
-// let auth0Client = null;
-// window.onload = async function (e) {
-//     auth0Client = await window.auth0.createAuth0Client({
-//         domain: "dev-f1l6uy3hj102ba78.uk.auth0.com",
-//         clientId: "c0slXneAJT5ne8ULL6U0EOg53WRGhqzQ",
-//         authorizationParams: {
-//             redirect_uri: "http://localhost:8000/app.html",
-//         },
-//     });
-//     await auth0Client.loginWithRedirect();
-//     if (
-//         location.search.includes("state=") &&
-//         (location.search.includes("code=") || location.search.includes("error="))
-//     ) {
-//         await auth0Client.handleRedirectCallback();
-//         // window.history.replaceState({}, document.title, "/");
-//     }
-// };
+async function login() {
+    await auth0Client.loginWithRedirect();
+}
+
+async function logout() {
+    await auth0Client.logout();
+}
+
+async function loginLogoutFlow() {
+    if (await auth0Client.isAuthenticated()) {
+        logout();
+    } else {
+        login();
+    }
+}
+
+let auth0Client = null;
+async function onPageLoad(data) {
+    window.onload = async function (e) {
+        auth0Client = await window.auth0.createAuth0Client({
+            domain: "dev-f1l6uy3hj102ba78.uk.auth0.com",
+            clientId: "c0slXneAJT5ne8ULL6U0EOg53WRGhqzQ",
+            authorizationParams: {
+                redirect_uri: "http://localhost:3000/app.html",
+            },
+        });
+        if (
+            location.search.includes("state=") &&
+            (location.search.includes("code=") || location.search.includes("error="))
+        ) {
+            await auth0Client.handleRedirectCallback();
+            window.history.replaceState({}, document.title, "/app.html");
+        }
+        if (await auth0Client.isAuthenticated()) {
+            const user = await auth0Client.getUser();
+            data.message = "Welcome, " + user.given_name + "!";
+            data.login_button_text = "Logout";
+        } else {
+            data.message = "Welcome!";
+        }
+    };
+}
