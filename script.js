@@ -1,15 +1,12 @@
 async function getReceipts() {
     var response = await fetch("http://localhost:8000/api/history", {
         method: "GET",
-        mode: "no-cors",
         headers: {
             Accept: "application/json",
         },
     });
-    console.log(response);
-    // response = await response.json();
-    // console.log(JSON.stringify(response));
-    // return response;
+    response = await response.json();
+    return response;
 }
 
 function importData(data) {

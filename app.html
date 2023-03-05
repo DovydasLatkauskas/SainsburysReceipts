@@ -137,15 +137,15 @@
                           </tr>
                         </thead>
                         <tbody x-show="show" class="divide-y divide-gray-200 bg-white">
-                          <template x-for="product in receipt['line_items']">
+                          <template x-for="product in receipt['line_item']">
                             <tr>
                               <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-0">
                                 <div class="flex items-center">
                                   <div class="h-10 w-10 flex-shrink-0">
-                                    <img :src="product.image_url" class="h-10 w-10" alt="" />
+                                    <img :src="product.image_link" class="h-10 w-10" alt="" />
                                   </div>
                                   <div class="ml-4">
-                                    <div x-text="product.name" class="font-medium text-gray-900"></div>
+                                    <div x-text="product.name_on_website" class="font-medium text-gray-900"></div>
                                   </div>
                                 </div>
                               </td>
@@ -154,8 +154,9 @@
                               </td>
                               <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                 <span
-                                  x-text="product.quantity"
-                                  class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"></span>
+                                  class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"
+                                  >1</span
+                                >
                               </td>
                             </tr>
                           </template>
@@ -164,7 +165,7 @@
                           <tr>
                             <td class="whitespace-nowrap px-3 py-4 text-sm font-bold text-black">Total</td>
                             <td
-                              x-text="'£' + receipt['line_items'].map(x => x.price).reduce((a, b) => a + b, 0)"
+                              x-text="'£' + receipt['line_item'].map(x => x.price).reduce((a, b) => a + b, 0).toFixed(2)"
                               class="whitespace-nowrap px-3 py-4 text-sm font-bold text-black"></td>
                             <td></td>
                           </tr>
