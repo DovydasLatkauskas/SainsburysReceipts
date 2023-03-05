@@ -11,6 +11,7 @@ import sqlite3
 import aiofiles
 import numpy as np
 import random
+import os
 from fastapi.middleware.cors import CORSMiddleware
 
 def tuples_to_json(tuples):
@@ -74,14 +75,15 @@ async def scan_receipt(my_file: UploadFile = File(...)):
 
     #parse the data in the image
     print("creating list of tuples; parsing receipt via veryfiAPI")
-    list_of_tuples = image_to_list_of_tuples(image)
+    #list_of_tuples = image_to_list_of_tuples(image)
     print("creating json")
-    json_list = tuples_to_json(list_of_tuples)
-    date = image_to_date(image)
+    #json_list = tuples_to_json(list_of_tuples)
+    #date = image_to_date(image)
+    os.sleep(2)
 
     #create json to be sent to frontend with basic receipt data 
-    json = {"date":date,"line_items":json_list}
-    print("returning json")
+    #json = {"date":date,"line_items":json_list}
+    #print("returning json")
     return json
 
 
