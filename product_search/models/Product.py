@@ -31,6 +31,7 @@ class Product:
     #     self.price = new_price
 
     def set_id():
+        id = random.randint(0,1000000000)
         
     
     def product_to_serpapi_json(self,private_api_key):
