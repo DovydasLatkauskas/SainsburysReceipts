@@ -4,17 +4,18 @@ import requests
 import json
 import re
 import uuid
-
+import random
 @dataclass
 class Product:
     # instance variables
-    id : int #= (uuid.uuid4().int>>96)# should be created by the database??
+    id : int = 0#= (uuid.uuid4().int>>96)# should be created by the database??
     price : int = 0
     name_on_receipt : str = ''
     name_on_website : str = ''
     link_to_product : str = ''
     image_link : str = ''
     category : str = ""
+    receipts_id: int = 0
 
     # nutritional info?
 
@@ -31,6 +32,7 @@ class Product:
     #     self.price = new_price
 
     def set_id():
+        pass
         
     
     def product_to_serpapi_json(self,private_api_key):
@@ -47,7 +49,14 @@ class Product:
         return params
     
     def populate_product_using_link(self, link, imlink):
-        """done by martina, populates product object with data from Sainsbury's website"""
+        """populates product object with data from Sainsbury's website
+        link: str -- link to the product on the website
+        imlink: str -- some links do not have item id; if this is the case,
+                       imlink is used as a hacky workaround, as it contains 
+                       the item id needed to retrieve the data from the 
+                       online json"""
+        
+        
         #def fix_url(url):
         new_url = 'https://www.sainsburys.co.uk/groceries-api/gol-services/product/v1/product?filter[product_seo_url]=gb%2Fgroceries%2F'
         ending_index = link.rfind('/')
@@ -81,10 +90,9 @@ class Product:
            
             
             
-            
-        #print(json_site)
-        
+                    
         self.name_on_website = json_site['products'][0]['name']
+        self.link_to_product = link
         self.image_link = json_site['products'][0]['image']
         dairy_prod_list = ["Desserts", "Dairy & eggs", "World foods, kosher & halal", "Vegetarian, vegan & dairy free"]
         food_cup_list = ["Confectionery", "Rice, pasta & noodles", "Biscuits & crackers"]
@@ -119,6 +127,3 @@ class Product:
                 self.category = json_site['products'][0]["breadcrumbs"][0]["label"]
         except IndexError:
             self.category = 'None'
-            
-#c = Product(0.6, 'hello')
-#print(c.category)
