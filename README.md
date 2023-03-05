@@ -1,6 +1,6 @@
 # Sainsbury's Receipt Scanner & Purchase History
 
-A program that lets you scan your sainsbury's receipts and view spending stats. Receipts are processed using an optical character recognition (OCR) API, and results are matched to entries in sainsburys.co.uk, providing more detailed information of the products in your purchase history. This enables you to e.g. see a detailed overview of your spending habits, including a breakdown of spending per category, and allows you to set spending goals as well.
+A program that lets you scan your sainsbury's receipts and view spending stats. Receipts are processed using an optical character recognition (OCR) API, and results are matched to entries in sainsburys.co.uk, providing more detailed information of the products in your purchase history. This enables you to e.g. see a detailed overview of your spending habits, including a breakdown of spending per category, and allows you to set spending goals as well. Matching items is done by searching the truncated item name on the receipt and item price using a google search API, and retrieving the first search result. 
 
 
 ## Sainsbury's Challenge
