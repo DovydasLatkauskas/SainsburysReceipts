@@ -5,6 +5,8 @@ from test_main import lod_to_lop
 from private_api_key import private_api_key
 from product_search.models.Product import Product
 from product_search.models.Receipt import Receipt
+from fastapi import File, UploadFile
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import sqlite3
 
@@ -51,8 +53,13 @@ class JSON_OBJECT(BaseModel):
     line_items: list
 
 @app.post("/api/raw_receipt")
-async def scan_receipt(image):
-    list_of_tuples = image_to_list_of_tuples(image)
+async def scan_receipt(image: JSON_OBJECT):
+    imbytes = image.file
+
+    with open("temp.jpg", 'wb') as f:
+        f.write(imbytes)
+        
+    list_of_tuples = image_to_list_of_tuples(image.filename)
     json_list = tuples_to_json(list_of_tuples)
     date = image_to_date(image)
     json = {"date":date,"line_items":json_list}
