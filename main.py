@@ -73,12 +73,15 @@ async def scan_receipt(my_file: UploadFile = File(...)):
     image = "destination.jpg"
 
     #parse the data in the image
+    print("creating list of tuples; parsing receipt via veryfiAPI")
     list_of_tuples = image_to_list_of_tuples(image)
+    print("creating json")
     json_list = tuples_to_json(list_of_tuples)
     date = image_to_date(image)
 
     #create json to be sent to frontend with basic receipt data 
     json = {"date":date,"line_items":json_list}
+    print("returning json")
     return json
 
 
