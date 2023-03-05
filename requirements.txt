@@ -2,3 +2,5 @@ fastapi[all]
 veryfi
 google-search-results
 beautifulsoup4
+aiofiles
+numpy

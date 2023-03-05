@@ -13,6 +13,7 @@ import numpy as np
 import random
 import os
 from fastapi.middleware.cors import CORSMiddleware
+import time
 
 def tuples_to_json(tuples):
     json_list = []
@@ -79,7 +80,7 @@ async def scan_receipt(my_file: UploadFile = File(...)):
     print("creating json")
     #json_list = tuples_to_json(list_of_tuples)
     #date = image_to_date(image)
-    os.sleep(2)
+    time.sleep(2)
 
     #create json to be sent to frontend with basic receipt data 
     #json = {"date":date,"line_items":json_list}
