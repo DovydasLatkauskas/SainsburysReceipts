@@ -83,6 +83,9 @@ class Product:
         
         self.name_on_website = json_site['products'][0]['name']
         self.image_link = json_site['products'][0]['image']
+        dairy_prod_list = ["Desserts", "Dairy & eggs", "World foods, kosher & halal", "Vegetarian, vegan & dairy free"]
+        food_cup_list = ["Confectionery", "Rice, pasta & noodles", "Biscuits & crackers"]
+        
        # categories to change : list("Fruit & vegetables", "Meat & fish", "Dairy, eggs & chilled", "Food cupboard")
         try:
             if json_site['products'][0]["breadcrumbs"][0]["label"] == "Fruit & vegetables":
@@ -91,25 +94,26 @@ class Product:
                 else:
                     self.category = "Vegetables"
                 
-            if json_site['products'][0]["breadcrumbs"][0]["label"] == "Meat & fish":
+            elif json_site['products'][0]["breadcrumbs"][0]["label"] == "Meat & fish":
                 if json_site['products'][0]["breadcrumbs"][1]["label"] == "Fish & seafood":
                     self.category = json_site['products'][0]["breadcrumbs"][1]["label"] 
                 else:
                     self.category = "Meat"
                 
-            dairy_prod_list = ["Desserts", "Dairy & eggs", "World foods, kosher & halal", "Vegetarian, vegan & dairy free"]
-            if json_site['products'][0]["breadcrumbs"][0]["label"] == "Dairy, eggs & chilled":
+            elif json_site['products'][0]["breadcrumbs"][0]["label"] == "Dairy, eggs & chilled":
                 if json_site['products'][0]["breadcrumbs"][1]["label"] in dairy_prod_list:
                     self.category = json_site['products'][0]["breadcrumbs"][1]["label"] 
                 else:
                     self.category = "Chilled and ready made"
                     
-            food_cup_list = ["Confectionery", "Rice, pasta & noodles", "Biscuits & crackers"]
-            if json_site['products'][0]["breadcrumbs"][0]["label"] == "Food cupboard":
+            
+            elif json_site['products'][0]["breadcrumbs"][0]["label"] == "Food cupboard":
                 if json_site['products'][0]["breadcrumbs"][1]["label"] in food_cup_list:
                     self.category = json_site['products'][0]["breadcrumbs"][1]["label"] 
                 else:
                     self.category = "Food cupboard"
+            else:
+                self.category = json_site['products'][0]["breadcrumbs"][0]["label"]
         except IndexError:
             self.category = 'None'
             
