@@ -12,7 +12,9 @@
     <script src="script.js"></script>
   </head>
 
-  <body x-data="{ tab: $persist('dashboard'), modal: false, dataToVerify: [null, null] }" class="h-full w-full">
+  <body
+    x-data="{ tab: $persist('dashboard'), modal: $persist(false), dataToVerify: {'date':'234', 'line_items': [{'name':'LINDT INTENSE ORANG','price':'1.60','quantity':'1'}]} }"
+    class="h-full w-full">
     <!-- Static sidebar for desktop -->
     <div class="z-10 hidden select-none lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
       <!-- Sidebar component, this element can be swapped with another sidebar if I want -->
@@ -222,24 +224,25 @@
                       </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 bg-white">
-                      <template x-for="row in dataToVerify">
+                      <template x-for="row in dataToVerify.line_items">
                         <tr>
                           <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-0">
                             <div class="ml-4">
                               <input
-                                class="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                placeholder="placeholder" />
+                                x-model="row.name"
+                                class="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                             </div>
                           </td>
                           <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             <input
-                              class="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                              placeholder="2.99" />
+                              x-model="row.price"
+                              class="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                           </td>
                           <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             <input
+                              x-model="row.quantity"
                               class="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                              placeholder="1" />
+                              value="1" />
                           </td>
                         </tr>
                       </template>
@@ -250,7 +253,7 @@
             </div>
             <div class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
               <button
-                @click="modal = !modal"
+                @click="submitForm($data)"
                 class="inline-flex w-full justify-center rounded-md bg-plum-base px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-plum-light sm:col-start-2"
                 type="button">
                 Confirm

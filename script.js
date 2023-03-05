@@ -58,7 +58,7 @@ function importData(data) {
     input.type = "file";
     input.onchange = (_) => {
         let files = Array.from(input.files);
-        console.log(files);
+        //console.log(files);
         data.modal = true;
     };
     input.click();
@@ -87,6 +87,22 @@ function loadPieChart(el) {
         var chart = new google.visualization.PieChart(el);
         chart.draw(data, options);
     }
+}
+
+async function submitForm(data) {
+    console.log(JSON.stringify(data.dataToVerify));
+    var response = await fetch("http://localhost:8000/api/submit_receipt", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data.dataToVerify),
+    });
+    // response = await response.json();
+    // console.log(JSON.stringify(response));
+    data.modal = false;
 }
 
 // this doesn't work and I can't fix it :(
