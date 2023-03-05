@@ -14,7 +14,9 @@ Our proposal is to integrate these features with the nectar card, so that custom
 
 > uvicorn main:app
 
-to start the server. **test_api.py** can be used to run some simple tests on the api calls (parse receipt, populate database, retrieve purchase history from database etc.)
+to start the server. 
+
+**test_api.py** can be used to run some simple tests on the api calls (parse receipt, populate database, retrieve purchase history from database etc.)
 
 
 The web interface can be used to access the main dashboard with spending stats, as well as the purchase history. A pre populated database has been provided, along with some test images of receipts.
