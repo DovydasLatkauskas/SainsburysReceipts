@@ -1,4 +1,5 @@
 
+import uuid
 from product_search.models.Receipt import Receipt
 from product_search.models.VeryfiParser import VeryfiParser
 from product_search.search_product import search_product
@@ -116,7 +117,7 @@ def lod_to_lop(list_of_dicts):
     output = list()
     for product in list_of_dicts:
         print(product)
-        output.append(Product(name_on_receipt=product["name"],price=product["price"]))
+        output.append(Product(id=(uuid.uuid4().int>>96) ,name_on_receipt=product["name"],price=product["price"]))
     for product in output:
         product = search_product(product)
     return output

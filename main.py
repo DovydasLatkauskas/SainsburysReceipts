@@ -78,6 +78,8 @@ async def add_receipt(json: JSON_OBJECT):
     #create a list of products from the list of product tuples from user
     line_items = json.line_items
     list_of_products = lod_to_lop(line_items)
+    print('LISTOFPRODS')
+    print(list_of_products)
     receipt = Receipt(products=list_of_products,date=json.date)
     add_to_database(receipt)
 
@@ -87,11 +89,13 @@ async def add_receipt(json: JSON_OBJECT):
 
 
 def add_to_database(receipt: Receipt):
+    print(receipt.id)
     cursor.execute("""
     INSERT INTO receipts (id, date) VALUES (?, ?);
     """, (receipt.id, receipt.date))
     conn.commit()
     for product in receipt.products:
+        print(product.id)
         cursor.execute("""
         INSERT INTO products (id, price, name_on_receipt, name_on_website, link_to_product, image_link, category, receipts_id)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?);

@@ -7,7 +7,7 @@ import uuid
 class Receipt:
     products : List[Product]
     date : str
-    id : int = uuid.uuid4().int # should be created by the database
+    id : int = (uuid.uuid4().int>>96) # should be created by the database
 
     def get_products(self):
         return self.products
