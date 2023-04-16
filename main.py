@@ -1,16 +1,11 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import json
 
 from modules.Receipt import Receipt
 from modules.parsers import VeryfiParser
 from modules.product_search import GoogleProductSearch
 from modules.DatabaseHandler import DbHandler
-
-
-import sqlite3
-import numpy as np
 
 app = FastAPI()
 
