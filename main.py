@@ -6,6 +6,7 @@ from modules.Receipt import Receipt
 from modules.parsers import VeryfiParser
 from modules.product_search import GoogleProductSearch
 from modules.DatabaseHandler import DbHandler
+from config import VERYFI_AUTH, SERPAPI_AUTH, DB_ADDRESS
 
 app = FastAPI()
 

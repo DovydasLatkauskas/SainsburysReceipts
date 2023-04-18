@@ -12,8 +12,7 @@ class DbHandler():
     def __init__(self) -> None:
         self.conn = sqlite3.connect('sainsburys_v2.db')
         self.cursor = self.conn.cursor()
-    
-    
+       
     def insert_receipt(self,cust_id,receipt:Receipt) -> tuple:
         '''inserts a receipt entry into database and returns inserted tuple'''
         self.cursor.execute(sql_query("modules/SQL/insert_receipt.sql"),
@@ -52,9 +51,7 @@ class DbHandler():
 
     def __get_rids(self, cid):
         self.cursor.execute(f"SELECT * FROM receipts where cust_id = {cid}")
-        return self.cursor.fetchall()
-    
-    
+        return self.cursor.fetchall()  
     
     def commit_and_close(self):
         self.conn.commit()

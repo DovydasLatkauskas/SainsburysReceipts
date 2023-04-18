@@ -4,10 +4,11 @@ from modules.Product import Product
 from modules.ApiToken import ApiToken
 from veryfi import Client
 import os
+import io
+
 
 class Parser(ABC):
     '''abstract class defining the structure of receipt parsers'''
-    response: any
     
     @abstractclassmethod
     def create_receipt(self) -> Receipt:
@@ -29,7 +30,7 @@ class VeryfiParser(Parser):
         self.response = None
         
     
-    def parse_image_file(self,img) -> None:
+    def process_image_file(self,img) -> None:
         veryfi_client = Client(self.token.client_id,
                                self.token.client_secret,
                                self.token.username,
@@ -42,21 +43,20 @@ class VeryfiParser(Parser):
 
     def process_image_bytes(self,img: bytes) -> None:
         name = ".tmp/"+str(hash(img)) + '.jpg'
+        img = img.read()
         with open(name , "wb") as f:
             f.write(img)
             
             
-        self.parse_image_file()
+        self.process_image_file(name)
         
         os.remove(name)
 
 
     def create_receipt(self) -> Receipt:
-        items = list()
-        for item in self.response["line_items"]:
-            p = Product(name_on_receipt=item['description'],
-                        price=item['total'])
-            items.append(p)
+        items = list(map(lambda item: Product(name_on_receipt=item['description'], 
+                                              price=item['total']), 
+                         self.response["line_items"]))
         
         date = self.response["created_date"]
         

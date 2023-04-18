@@ -22,16 +22,25 @@ class GoogleProductSearch():
         self.response = GoogleSearch(params).get_dict()
         
         
-    def create_product(self):
-        link = ["organic_results"][0]["link"]
+    def get_links(self):
+        def recursive_search(i:int = 0):
+            link = self.response["organic_results"][i]["link"]
+            if "product" in link:
+                return i
+            else:
+                try:
+                    recursive_search(i+1)
+                except IndexError as e:
+                    return 0
+                
+        i = recursive_search()
+        link = self.response["organic_results"][i]["link"]
         
         try:
-            image_link = self.response["inline_images"][0]["original"]
+            image_link = self.response["inline_images"][i]["original"]
         except:
             image_link = ""
-            
-        p = Product(image_link=image_link)
 
-        return p.populate_product_using_link(link)
+        return link,image_link
     
     
