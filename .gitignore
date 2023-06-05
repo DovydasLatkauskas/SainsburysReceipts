@@ -1,2 +1,12 @@
 __pycache__
 private_api_key.py
+.metals
+.bloop
+.bsp
+.idea
+.vscode
+post_things.py
+test_google_search.py
+test_main.py
+test_receipt.py
+test_scraping.py
